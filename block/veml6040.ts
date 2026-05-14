@@ -173,29 +173,29 @@ namespace FIFAbit {
 
         if (h < 0) h += 360
 
-        //serial.writeLine("H=" + h + " S=" + s)
+        serial.writeLine("H=" + h + " S=" + s)
 
         // ===== 分类（区间判断）=====
         if (color == DetectedColor.Red){
             if (h < 20 || h >= 345) return true
             return false
         }else if (color == DetectedColor.Orange){
-            if (h >= 20 && h < 50) return true
+            if (h >= 20 && h < 70) return true
             return false
         } else if (color == DetectedColor.Yellow) {
-            if (h >= 50 && h < 75) return true
+            if (h >= 70 && h < 115) return true
             return false
         } else if (color == DetectedColor.Green) {
-            if (h >= 75 && h < 145) return true
+            if (h >= 115 && h < 170) return true
             return false
         } else if (color == DetectedColor.Cyan) {
-            if (h >= 160 && h < 210) return true
+            if (h >= 170 && h < 210) return true
             return false
         } else if (color == DetectedColor.Blue) {
-            if (h >= 210 && h < 250) return true
+            if (h >= 210 && h < 225) return true
             return false
         } else if (color == DetectedColor.Purple) {
-            if (h >= 255 && h < 335) return true
+            if (h >= 225 && h < 335) return true
             return false
         }
         return false

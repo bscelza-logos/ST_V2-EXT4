@@ -45,15 +45,15 @@
 
     "{id:group}LED Strip": "灯带",
 
-    "Colors.Red": "红色",
-    "Colors.Orange": "橙色",
-    "Colors.Yellow": "黄色",
-    "Colors.Green": "绿色",
-    "Colors.Cyan": "青色",
-    "Colors.Blue": "蓝色",
-    "Colors.Purple": "紫色",
-    "Colors.White": "白色",
-    "Colors.Black": "黑色",
+    "Colors.Red|block": "红色",
+    "Colors.Orange|block": "橙色",
+    "Colors.Yellow|block": "黄色",
+    "Colors.Green|block": "绿色",
+    "Colors.Cyan|block": "青色",
+    "Colors.Blue|block": "蓝色",
+    "Colors.Purple|block": "紫色",
+    "Colors.White|block": "白色",
+    "Colors.Black|block": "黑色",
 
     "FIFAbit.initStrip|block": "初始化灯带引脚 %pin 灯数 %ledCount",
     "FIFAbit.setBrightness|block": "设置亮度 %brightness",
@@ -67,8 +67,8 @@
 
     "{id:group}LCD1602": "LCD1602",
 
-    "LcdBacklight.On": "开",
-    "LcdBacklight.Off": "关",
+    "LcdBacklight.On|block": "开",
+    "LcdBacklight.Off|block": "关",
 
     "FIFAbit.lcd1602_init|block": "初始化 LCD1602",
     "FIFAbit.lcd1602_clear|block": "清屏",
@@ -79,9 +79,9 @@
 
     "{id:group}Line Tracking Sensor": "巡线传感器",
 
-    "SensorSide.Left": "左",
-    "SensorSide.Middle": "中",
-    "SensorSide.Right": "右",
+    "SensorSide.Left|block": "左",
+    "SensorSide.Middle|block": "中",
+    "SensorSide.Right|block": "右",
 
     "FIFAbit.initSensors|block": "初始化巡线传感器引脚|左探头%left|中探头%middle|右探头%right",
     "FIFAbit.detectLine|block": "%position 探头检测到黑线？",
@@ -100,10 +100,10 @@
     "FIFAbit.isPressed|block": "按键 %pin 是否按下?",
 
     "{id:group}Joystick": "摇杆",
-    "JoyDirection.Up": "上",
-    "JoyDirection.Down": "下",
-    "JoyDirection.Left": "左",
-    "JoyDirection.Right": "右",
+    "JoyDirection.Up|block": "上",
+    "JoyDirection.Down|block": "下",
+    "JoyDirection.Left|block": "左",
+    "JoyDirection.Right|block": "右",
     "FIFAbit.initJoystick|block": "初始化摇杆|X %xPin|Y %yPin|按键 %swPin",
     "FIFAbit.rocker|block": "读取摇杆 %direction 数值",
     "FIFAbit.rockerori|block": "摇杆检测到 %orientation 方向?",
@@ -115,13 +115,13 @@
 
 
     "{id:group}Color Sensor": "颜色传感器",
-    "DetectedColor.Red": "红色",
-    "DetectedColor.Orange": "橙色",
-    "DetectedColor.Yellow": "黄色",
-    "DetectedColor.Green": "绿色",
-    "DetectedColor.Cyan": "青色",
-    "DetectedColor.Blue": "蓝色",
-    "DetectedColor.Purple": "紫色",
+    "DetectedColor.Red|block": "红色",
+    "DetectedColor.Orange|block": "橙色",
+    "DetectedColor.Yellow|block": "黄色",
+    "DetectedColor.Green|block": "绿色",
+    "DetectedColor.Cyan|block": "青色",
+    "DetectedColor.Blue|block": "蓝色",
+    "DetectedColor.Purple|block": "紫色",
 
     "FIFAbit.init_veml|block": "初始化颜色传感器",
     "FIFAbit.isColorDetected|block": "识别到颜色 %color?",
