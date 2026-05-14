@@ -173,7 +173,7 @@ namespace FIFAbit {
 
         if (h < 0) h += 360
 
-        serial.writeLine("H=" + h + " S=" + s)
+        //serial.writeLine("H=" + h + " S=" + s)
 
         // ===== 分类（区间判断）=====
         if (color == DetectedColor.Red){
