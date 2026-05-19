@@ -17,6 +17,7 @@
     "FIFAbit.motionDistance|block": "%mtype 速度 %mspeed 距离 %distance 厘米",
     "FIFAbit.motionAngle|block": "%mtype 速度 %mspeed 角度 %angle °",
     "FIFAbit.motionStop|block": "停止运动",
+    "FIFAbit.motionSetWheel|block": "设置车轴长度偏移量 %num mm",
 
     "{id:group}Motor": "电机",
     "FIFAbit.motorGetSpeed|block": "读取电机 %mID 速度",
@@ -27,8 +28,7 @@
     "FIFAbit.motorRunAngle|block": "电机 %mID 速度 %mspeed 转动 %angle 度",
     "FIFAbit.motorRunSpeed|block": "电机 %mID %direction 速度 %speed运行",
     "FIFAbit.motorStop|block": "电机 %mID 停止",
-
-
+    "FIFAbit.motorSetPerimeter|block": "设置电机 %mID 车轮周长偏移量 %num mm",
 
     "{id:group}Servo Motor": "舵机",
 
