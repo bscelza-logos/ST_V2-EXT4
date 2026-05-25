@@ -17,7 +17,7 @@
     "FIFAbit.motionDistance|block": "%mtype 速度 %mspeed 距离 %distance 厘米",
     "FIFAbit.motionAngle|block": "%mtype 速度 %mspeed 角度 %angle °",
     "FIFAbit.motionStop|block": "停止运动",
-    "FIFAbit.motionSetWheel|block": "设置车轴长度偏移量 %num mm",
+    "FIFAbit.motionSetWheel|block": "设置 旋转角度 补偿 %num \\%",
 
     "{id:group}Motor": "电机",
     "FIFAbit.motorGetSpeed|block": "读取电机 %mID 速度",
@@ -28,7 +28,7 @@
     "FIFAbit.motorRunAngle|block": "电机 %mID 速度 %mspeed 转动 %angle 度",
     "FIFAbit.motorRunSpeed|block": "电机 %mID %direction 速度 %speed运行",
     "FIFAbit.motorStop|block": "电机 %mID 停止",
-    "FIFAbit.motorSetPerimeter|block": "设置电机 %mID 车轮周长偏移量 %num mm",
+    "FIFAbit.motorSetPerimeter|block": "设置电机 %mID 补偿 %num \\%",
 
     "{id:group}Servo Motor": "舵机",
 
@@ -122,6 +122,8 @@
     "DetectedColor.Cyan|block": "青色",
     "DetectedColor.Blue|block": "蓝色",
     "DetectedColor.Purple|block": "紫色",
+    "DetectedColor.White|block": "白色",
+    "DetectedColor.Black|block": "黑色",
 
     "FIFAbit.init_veml|block": "初始化颜色传感器",
     "FIFAbit.isColorDetected|block": "识别到颜色 %color?",

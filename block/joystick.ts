@@ -100,10 +100,10 @@ namespace FIFAbit {
             return y > center + threshold
         }
         if (orientation == JoyDirection.Left) {
-            return x < center - threshold
+            return x > center + threshold
         }
         if (orientation == JoyDirection.Right) {
-            return x > center + threshold
+            return x < center - threshold
         }
 
         return false

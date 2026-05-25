@@ -110,9 +110,9 @@ namespace FIFAbit {
         let text = num.toString()
 
         // 固定长度（避免残留字符）
-        while (text.length < 4) {
-            text = " " + text
-        }
+        // while (text.length < 4) {
+        //     text = " " + text
+        // }
 
         showAt(text, row, col)
         //showAt(num.toString(), row, col)

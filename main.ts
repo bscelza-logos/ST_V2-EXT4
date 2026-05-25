@@ -267,14 +267,18 @@ namespace FIFAbit {
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
     }
     //% blockId=motionSetWheel
-    //% block="set axle length offset %num mm"
+    //% block="set rotation angle compensation %num \\%"
     //% num.min=-50 num.max=50 num.defl=0
     //% group="Motion" weight=5
     export function motionSetWheel(num:number): void {
+        if (num < -50) num = -50;
+        if (num > 50) num = 50;
+        
         const regAddr = 0x8C + 0x06;
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, regAddr);
-        cmdBuff.setNumber(NumberFormat.Int8BE, 1, num);
+        cmdBuff.setNumber(NumberFormat.UInt8BE, 1, num);
+
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
         basic.pause(50);
     }
@@ -505,15 +509,17 @@ namespace FIFAbit {
     }
 
     //% blockId=motorSetPerimeter
-    //% block="set motor %mID wheel perimeter offset %num mm"
-    //% num.min=-20 num.max=20 num.defl=0
+    //% block="set motor %mID compensation %num \\%"
+    //% num.min=-50 num.max=50 num.defl=0
     //% group="Motor" weight=2
     export function motorSetPerimeter(mID: motorID,num:number): void {
+        if (num < -50) num = -50;
+        if (num > 50) num = 50;
         // 发送设置周长偏移量指令
         const cmdAddr = mID + 0x0B;
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
-        cmdBuff.setNumber(NumberFormat.Int8BE, 1, num);
+        cmdBuff.setNumber(NumberFormat.UInt8BE, 1, num);
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
         basic.pause(50);
     }

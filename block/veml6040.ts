@@ -1,7 +1,7 @@
 //----------------------------------颜色传感器-------------------------------
-const GAIN_R = 1.3//0.93
-const GAIN_G = 1.25//0.95
-const GAIN_B = 2.3//1.81
+const GAIN_R = 1.82//1.3//0.93
+const GAIN_G = 1.5//1.25//0.95
+const GAIN_B = 2.4//1.81
 
 enum DetectedColor {
     //% block="red"
@@ -18,10 +18,10 @@ enum DetectedColor {
     Blue,
     //% block="purple"
     Purple,
-    // //% block="白色"
-    // White,
-    // //% block="黑色"
-    // Black
+    //% block="white"
+    White,
+    //% block="black"
+    Black
 }
 
 // 颜色
@@ -151,13 +151,21 @@ namespace FIFAbit {
 
         // ===== 饱和度 =====
         if (max == 0) return false
-        if (max == min) return false
-        let s = (max - min) / max
-        //serial.writeLine(s + "")
+        let s = 0
+        if (max != min) {
+            s = (max - min) / max
+        }
+        //serial.writeLine("S="+s + " w="+w)
+        // ===== 黑白判断 =====
+        // 黑色：亮度低
+        if (w < 2500) {
+            //serial.writeLine( "black")
+            return color == DetectedColor.Black
+        }
+        // 白色：亮度高 + 饱和度低
         if (s < 0.1) {
-            //此为白
-            //serial.writeLine("b2")
-            return false 
+            //serial.writeLine("white")
+            return color == DetectedColor.White
         }
 
         // ===== Hue =====
@@ -177,25 +185,25 @@ namespace FIFAbit {
 
         // ===== 分类（区间判断）=====
         if (color == DetectedColor.Red){
-            if (h < 20 || h >= 345) return true
+            if (h < 25 || h >= 345) return true
             return false
         }else if (color == DetectedColor.Orange){
-            if (h >= 20 && h < 70) return true
+            if (h >= 25 && h < 45) return true
             return false
         } else if (color == DetectedColor.Yellow) {
-            if (h >= 70 && h < 115) return true
+            if (h >= 45 && h < 80) return true
             return false
         } else if (color == DetectedColor.Green) {
-            if (h >= 115 && h < 170) return true
+            if (h >= 80 && h < 180) return true
             return false
         } else if (color == DetectedColor.Cyan) {
-            if (h >= 170 && h < 210) return true
+            if (h >= 180 && h < 223) return true
             return false
         } else if (color == DetectedColor.Blue) {
-            if (h >= 210 && h < 225) return true
+            if (h >= 223 && h < 240) return true
             return false
         } else if (color == DetectedColor.Purple) {
-            if (h >= 225 && h < 335) return true
+            if (h >= 235 && h < 345) return true
             return false
         }
         return false
