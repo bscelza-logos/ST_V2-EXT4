@@ -553,21 +553,19 @@ namespace FIFAbit {
 
         // 计算脉冲宽度
         // 中间位置：1.5ms (1500µs) = 停止
-        // 顺时针方向：1.0ms (1000µs) = 全速逆时针
-        // 逆时针方向：2.0ms (2000µs) = 全速顺时针
+        // 顺时针方向：1.0ms (500µs) = 全速逆时针
+        // 逆时针方向：2.0ms (2500µs) = 全速顺时针
         let pulseWidth: number
 
         if (speed === 0) {
             pulseWidth = 1500
         } else {
             if (direction === RotationDirection.Clockwise) {
-                // 顺时针方向：脉冲宽度大于1500µs
-                // 1500-2000µs 对应速度 0-100
-                pulseWidth = 1500 - (speed * 5)
+                // 500-1500µs 对应速度 0-100
+                pulseWidth = 1500 - (speed * 10)
             } else {
-                // 逆时针方向：脉冲宽度小于1500µs
-                // 1000-1500µs 对应速度 0-100
-                pulseWidth = 1500 + (speed * 5)
+                // 1000-2500µs 对应速度 0-100
+                pulseWidth = 1500 + (speed * 10)
             }
         }
         // 设置脉冲宽度
