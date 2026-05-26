@@ -551,6 +551,10 @@ namespace FIFAbit {
         // 限制速度范围
         speed = Math.min(100, Math.max(0, speed))
 
+        if (speed > 0 && speed<30){
+            speed = 30
+        }
+
         // 计算脉冲宽度
         // 中间位置：1.5ms (1500µs) = 停止
         // 顺时针方向：1.0ms (500µs) = 全速逆时针
