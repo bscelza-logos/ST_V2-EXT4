@@ -209,40 +209,40 @@ namespace FIFAbit {
         return false
     }
     
-    //% blockId=readRGBValue
-    //% block="read %channel value"
-    //% group="Color Sensor" weight=37
-    export function readRGBValue(channel: enRGB): number {
-        updateRGB()
+    // //% blockId=readRGBValue
+    // //% block="read %channel value"
+    // //% group="Color Sensor" weight=37
+    // export function readRGBValue(channel: enRGB): number {
+    //     updateRGB()
 
-        if (cacheW == 0) return 0
+    //     if (cacheW == 0) return 0
 
-        // =====白光归一化 =====
-        let r = cacheR / cacheW
-        let g = cacheG / cacheW
-        let b = cacheB / cacheW
+    //     // =====白光归一化 =====
+    //     let r = cacheR / cacheW
+    //     let g = cacheG / cacheW
+    //     let b = cacheB / cacheW
 
-        // ===== 通道校正（数据拉伸） =====
-        r *= GAIN_R
-        g *= GAIN_G
-        b *= GAIN_B
+    //     // ===== 通道校正（数据拉伸） =====
+    //     r *= GAIN_R
+    //     g *= GAIN_G
+    //     b *= GAIN_B
 
-        // ===== 直接映射 =====
-        let nr = Math.round(r * 255)
-        let ng = Math.round(g * 255)
-        let nb = Math.round(b * 255)
+    //     // ===== 直接映射 =====
+    //     let nr = Math.round(r * 255)
+    //     let ng = Math.round(g * 255)
+    //     let nb = Math.round(b * 255)
 
-        nr = Math.min(255, Math.max(0, nr))
-        ng = Math.min(255, Math.max(0, ng))
-        nb = Math.min(255, Math.max(0, nb))
+    //     nr = Math.min(255, Math.max(0, nr))
+    //     ng = Math.min(255, Math.max(0, ng))
+    //     nb = Math.min(255, Math.max(0, nb))
 
-        switch (channel) {
-            case enRGB.Red: return nr
-            case enRGB.Green: return ng
-            case enRGB.Blue: return nb
-            default: return 0
-        }
-    }
+    //     switch (channel) {
+    //         case enRGB.Red: return nr
+    //         case enRGB.Green: return ng
+    //         case enRGB.Blue: return nb
+    //         default: return 0
+    //     }
+    // }
 
     //% blockId=readWhiteValue
     //% block="read brightness"
