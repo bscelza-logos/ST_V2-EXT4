@@ -1,24 +1,24 @@
 
-> 在 [https://sunyong6666.github.io/fifabit/](https://sunyong6666.github.io/fifabit/) 打开此页面
+> Open this page at [https://bscelza-logos.github.io/ST_V2-EXT4/](https://bscelza-logos.github.io/ST_V2-EXT4/)
 
-## 用作扩展
+## Use as Extension
 
-此仓库可以作为 **插件** 添加到 MakeCode 中。
+This repository can be added as an **extension** in MakeCode.
 
-* 打开 [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* 点击 **新项目**
-* 点击齿轮图标菜单下的 **扩展**
-* 搜索 **https://github.com/sunyong6666/fifabit** 并导入
+* Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
+* Click **New Project**
+* Click **Extensions** under the gear icon menu
+* Search for **https://github.com/bscelza-logos/ST_V2-EXT4** and import
 
-## 编辑此项目
+## Edit this project
 
-在 MakeCode 中编辑此仓库。
+Edit this repository in MakeCode.
 
-* 打开 [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* 点击 **导入**，然后点击 **导入 URL**
-* 粘贴 **https://github.com/sunyong6666/fifabit** 并点击导入
+* Open [https://makecode.microbit.org/](https://makecode.microbit.org/)
+* Click **Import**, then click **Import URL**
+* Paste **https://github.com/bscelza-logos/ST_V2-EXT4** and click import
 
-#### 元数据（用于搜索、渲染）
+#### Metadata (used for search and rendering)
 
-* for PXT/microbit
+* SmartTEAM 4 — PXT/microbit extension
 <script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>

@@ -1,6 +1,6 @@
-const i2cAddress = 0x09;  // I2C设备地址
+const i2cAddress = 0x09;  // I2C device address
 
-// 运动类型
+// Motion type
 enum motionType {
     //% block="forward"
     type1 = 1,
@@ -11,14 +11,14 @@ enum motionType {
     //% block="right"
     type4 = 4
 }
-// 运动类型(前后)
+// Motion type (forward/backward)
 enum motionType1 {
     //% block="forward"
     type1 = 5,
     //% block="backward"
     type2 = 6
 }
-// 运动类型(左右)
+// Motion type (left/right)
 enum motionType2 {
     //% block="left"
     type1 = 9,
@@ -26,7 +26,7 @@ enum motionType2 {
     type2 = 10
 }
 
-// 选择控制的电机
+// Motor selection
 enum motorID {
     //% block="1"
     motor0 = 0x50,
@@ -34,7 +34,7 @@ enum motorID {
     motor1 = 0x6E
 }
 
-// 单电机运动方向
+// Single motor direction
 enum motorDirection {
     //% block="forward"
     clockwise = 1,
@@ -42,7 +42,7 @@ enum motorDirection {
     counterclockwise = 2
 }
 
-//舵机端口
+// Servo pin
 enum ServoPin {
     //% block="P0"
     P0 = DigitalPin.P0,
@@ -61,7 +61,7 @@ enum ServoPin {
     //% block="P16"
     P16 = DigitalPin.P16
 }
-//转动方向
+// Rotation direction
 enum RotationDirection {
     //% block="clockwise"
     Clockwise = 1,
@@ -69,7 +69,7 @@ enum RotationDirection {
     Counterclockwise = -1
 }
 
-// 灯条预定义颜色
+// LED strip preset colors
 enum Colors {
     //% block="red"
     Red = 0xFF0000,
@@ -95,11 +95,11 @@ enum Colors {
 
 
 
-//color="#6CACE4" icon="\uf1e3" block="FIFA:bit"
-//% color="#6CACE4" icon="\uf1e3" block="FIFA:bit"
-namespace FIFAbit {
+//color="#6CACE4" icon="\uf1e3" block="SmartTEAM 4"
+//% color="#6CACE4" icon="\uf1e3" block="SmartTEAM 4"
+namespace SmartTEAM4 {
     //#########################################################################
-    //################################## 运动（双电机）#########################
+    //################################## Motion (dual motor) #########################
     //#########################################################################
     //% blockId=motionSpeed
     //% block="move %mtype at speed %mspeed"
@@ -109,7 +109,7 @@ namespace FIFAbit {
         if (mspeed > 100) mspeed = 100;
         if (mspeed < -100) mspeed = -100;
 
-        // 根据速度正负决定是否反转方向
+        // Invert direction when speed is negative
         let finalType = mtype;
         if (mspeed < 0) {
             switch (mtype) {
@@ -128,8 +128,8 @@ namespace FIFAbit {
             }
         }
 
-        const spAddr = 0x8C + 0x01;//设置速度
-        mspeed = Math.abs(mspeed);//绝对值
+        const spAddr = 0x8C + 0x01;// set speed
+        mspeed = Math.abs(mspeed);// absolute value
         let spBuff = pins.createBuffer(5);
         spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
         spBuff.setNumber(NumberFormat.UInt8BE, 1, (mspeed >> 8) & 0xFF);
@@ -137,7 +137,7 @@ namespace FIFAbit {
         spBuff.setNumber(NumberFormat.UInt8BE, 3, (mspeed >> 8) & 0xFF);
         spBuff.setNumber(NumberFormat.UInt8BE, 4, mspeed & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, spBuff);
-        const regAddr = 0x8C + 0x00;//执行
+        const regAddr = 0x8C + 0x00;// execute
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, regAddr);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 1, finalType);
@@ -155,7 +155,7 @@ namespace FIFAbit {
         if (mspeed > 100) mspeed = 100;
         if (mspeed < -100) mspeed = -100;
 
-        // 根据速度正负决定是否反转方向
+        // Invert direction when speed is negative
         let finalType = mtype;
         if (mspeed < 0) {
             switch (mtype) {
@@ -168,8 +168,8 @@ namespace FIFAbit {
             }
         }
 
-        const spAddr = 0x8C + 0x01;//设置速度
-        mspeed = Math.abs(mspeed);//绝对值
+        const spAddr = 0x8C + 0x01;// set speed
+        mspeed = Math.abs(mspeed);// absolute value
         let spBuff = pins.createBuffer(5);
         spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
         spBuff.setNumber(NumberFormat.UInt8BE, 1, (mspeed >> 8) & 0xFF);
@@ -177,19 +177,19 @@ namespace FIFAbit {
         spBuff.setNumber(NumberFormat.UInt8BE, 3, (mspeed >> 8) & 0xFF);
         spBuff.setNumber(NumberFormat.UInt8BE, 4, mspeed & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, spBuff);
-        const disAddr = 0x8C + 0x02;//设置距离
+        const disAddr = 0x8C + 0x02;// set distance
         let disBuff = pins.createBuffer(3);
         disBuff.setNumber(NumberFormat.UInt8BE, 0, disAddr);
         disBuff.setNumber(NumberFormat.UInt8BE, 1, (distance >> 8) & 0xFF);
         disBuff.setNumber(NumberFormat.UInt8BE, 2, distance & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, disBuff);
-        const regAddr = 0x8C + 0x00;//执行
+        const regAddr = 0x8C + 0x00;// execute
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, regAddr);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 1, finalType);
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
 
-        // 轮询状态（阻塞）
+        // Poll status (blocking)
         basic.pause(100);
         while (true) {
             pins.i2cWriteNumber(i2cAddress, 0x8C + 0x05, NumberFormat.UInt8BE);
@@ -211,7 +211,7 @@ namespace FIFAbit {
 
         if (mspeed > 100) mspeed = 100;
         if (mspeed < -100) mspeed = -100;
-        // 根据速度正负决定是否反转方向
+        // Invert direction when speed is negative
         let finalType = mtype;
         if (mspeed < 0) {
             switch (mtype) {
@@ -224,8 +224,8 @@ namespace FIFAbit {
             }
         }
 
-        const spAddr = 0x8C + 0x01;//设置速度
-        mspeed = Math.abs(mspeed);//绝对值
+        const spAddr = 0x8C + 0x01;// set speed
+        mspeed = Math.abs(mspeed);// absolute value
         let spBuff = pins.createBuffer(5);
         spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
         spBuff.setNumber(NumberFormat.UInt8BE, 1, (mspeed >> 8) & 0xFF);
@@ -233,19 +233,19 @@ namespace FIFAbit {
         spBuff.setNumber(NumberFormat.UInt8BE, 3, (mspeed >> 8) & 0xFF);
         spBuff.setNumber(NumberFormat.UInt8BE, 4, mspeed & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, spBuff);
-        const disAddr = 0x8C + 0x04;//设置角度
+        const disAddr = 0x8C + 0x04;// set angle
         let disBuff = pins.createBuffer(3);
         disBuff.setNumber(NumberFormat.UInt8BE, 0, disAddr);
         disBuff.setNumber(NumberFormat.UInt8BE, 1, (angle >> 8) & 0xFF);
         disBuff.setNumber(NumberFormat.UInt8BE, 2, angle & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, disBuff);
-        const regAddr = 0x8C + 0x00;//执行
+        const regAddr = 0x8C + 0x00;// execute
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, regAddr);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 1, finalType);
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
 
-        // 轮询状态（阻塞）
+        // Poll status (blocking)
         basic.pause(100);
         while (true) {
             pins.i2cWriteNumber(i2cAddress, 0x8C + 0x05, NumberFormat.UInt8BE);
@@ -260,7 +260,7 @@ namespace FIFAbit {
     //% block="stop motion"
     //% group="Motion" weight=6
     export function motionStop(): void {
-        const regAddr = 0x8C + 0x00;//执行
+        const regAddr = 0x8C + 0x00;// execute
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, regAddr);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 1, 0);
@@ -283,28 +283,28 @@ namespace FIFAbit {
         basic.pause(50);
     }
     //#########################################################################
-    //##################################单电机#################################
+    //################################## Single motor #################################
     //#########################################################################
     //% blockId=motorGetSpeed
     //% block="get motor %mID speed"
     //% group="Motor" weight=29
     export function motorGetSpeed(mID: motorID): number {
-        // 发送指令
+        // Send command
         const cmdAddr = mID + 0x01;
         let cmdBuff = pins.createBuffer(1);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
-        // 拼接 2 字节为 16 位整数
+        // Combine 2 bytes into a 16-bit integer
         // let readBuff = pins.createBuffer(2);
         // readBuff = pins.i2cReadBuffer(i2cAddress, 2);
         // let highByte = readBuff.getNumber(NumberFormat.UInt8BE, 0);
         // let lowByte = readBuff.getNumber(NumberFormat.UInt8BE, 1);
         // let speed = ((highByte & 0xFF) << 8) | (lowByte & 0xFF);
 
-        // 读取2字节数据
+        // Read 2-byte data
         let readBuff = pins.createBuffer(2);
         readBuff = pins.i2cReadBuffer(i2cAddress, 2);
-        // 将2个字节作为有符号16位整数解析
+        // Parse 2 bytes as signed 16-bit integer
         let speed = readBuff.getNumber(NumberFormat.Int16BE, 0);
         return speed; 
     }
@@ -312,17 +312,17 @@ namespace FIFAbit {
     //% block="get motor %mID encoder value"
     //% group="Motor" weight=28
     export function motorGetAngle(mID: motorID): number {
-        // 发送指令
+        // Send command
         const cmdAddr = mID + 0x00;
         let cmdBuff = pins.createBuffer(1);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
 
-        // 读取4字节数据（32位有符号整数）
+        // Read 4-byte data (32-bit signed integer)
         let readBuff = pins.createBuffer(4);
         readBuff = pins.i2cReadBuffer(i2cAddress, 4);
 
-        // 将4个字节作为有符号32位整数解析
+        // Parse 4 bytes as signed 32-bit integer
         let angle = readBuff.getNumber(NumberFormat.Int32BE, 0);
         return angle;
     }
@@ -334,7 +334,7 @@ namespace FIFAbit {
     //     if (speed > 100) speed = 100;
     //     if (speed < 0) speed = 0;
 
-    //     // 设置速度
+    //     // set speed
     //     const spAddr = mID + 0x04;
     //     let spBuff = pins.createBuffer(3);
     //     spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
@@ -349,21 +349,21 @@ namespace FIFAbit {
     export function motorRun(mID: motorID, mspeed: number): void {
         if (mspeed > 100) mspeed = 100;
         if (mspeed < -100) mspeed = -100;
-        // 根据速度正负决定是否反转方向
+        // Invert direction when speed is negative
         let finalType = 1;
         if (mspeed < 0) {
             finalType = 2;
         }
-        // 设置速度
+        // set speed
         const spAddr = mID + 0x04;
-        mspeed = Math.abs(mspeed);//绝对值
+        mspeed = Math.abs(mspeed);// absolute value
         let spBuff = pins.createBuffer(3);
         spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
         spBuff.setNumber(NumberFormat.UInt8BE, 1, (mspeed >> 8) & 0xFF);
         spBuff.setNumber(NumberFormat.UInt8BE, 2, mspeed & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, spBuff);
 
-        // 发送运动指令
+        // Send motion command
         const cmdAddr = mID + 0x03;
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
@@ -382,35 +382,35 @@ namespace FIFAbit {
     
         if (mspeed > 100) mspeed = 100;
         if (mspeed < -100) mspeed = -100;
-        // 根据速度正负决定是否反转方向
+        // Invert direction when speed is negative
         let finalType = 1;
         if (mspeed < 0) {
             finalType = 2;
         }
-        // 设置速度
+        // set speed
         const spAddr = mID + 0x04;
-        mspeed = Math.abs(mspeed);//绝对值
+        mspeed = Math.abs(mspeed);// absolute value
         let spBuff = pins.createBuffer(3);
         spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
         spBuff.setNumber(NumberFormat.UInt8BE, 1, (mspeed >> 8) & 0xFF);
         spBuff.setNumber(NumberFormat.UInt8BE, 2, mspeed & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, spBuff);
 
-        //设置距离
+        // set distance
         const disAddr = mID + 0x07;
         let disBuff = pins.createBuffer(3);
         disBuff.setNumber(NumberFormat.UInt8BE, 0, disAddr);
         disBuff.setNumber(NumberFormat.UInt8BE, 1, (distance >> 8) & 0xFF);
         disBuff.setNumber(NumberFormat.UInt8BE, 2, distance & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, disBuff);
-        // 发送运动指令
+        // Send motion command
         const cmdAddr = mID + 0x03;
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 1, finalType + 6);
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
 
-        // 轮询状态（阻塞）
+        // Poll status (blocking)
         basic.pause(100);
         while (true) {
             pins.i2cWriteNumber(i2cAddress, mID + 0x09, NumberFormat.UInt8BE);
@@ -434,35 +434,35 @@ namespace FIFAbit {
 
         if (mspeed > 100) mspeed = 100;
         if (mspeed < -100) mspeed = -100;
-        // 根据速度正负决定是否反转方向
+        // Invert direction when speed is negative
         let finalType = 1;
         if (mspeed < 0) {
             finalType = 2;
         }
-        // 设置速度
+        // set speed
         const spAddr = mID + 0x04;
-        mspeed = Math.abs(mspeed);//绝对值
+        mspeed = Math.abs(mspeed);// absolute value
         let spBuff = pins.createBuffer(3);
         spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
         spBuff.setNumber(NumberFormat.UInt8BE, 1, (mspeed >> 8) & 0xFF);
         spBuff.setNumber(NumberFormat.UInt8BE, 2, mspeed & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, spBuff);
 
-        //设置偏移角度
+        // set angle offset
         const disAddr = mID + 0x06;
         let disBuff = pins.createBuffer(3);
         disBuff.setNumber(NumberFormat.UInt8BE, 0, disAddr);
         disBuff.setNumber(NumberFormat.UInt8BE, 1, (angle >> 8) & 0xFF);
         disBuff.setNumber(NumberFormat.UInt8BE, 2, angle & 0xFF);
         pins.i2cWriteBuffer(i2cAddress, disBuff);
-        // 发送运动指令
+        // Send motion command
         const cmdAddr = mID + 0x03;
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 1, finalType + 4);
         pins.i2cWriteBuffer(i2cAddress, cmdBuff);
 
-        // 轮询状态（阻塞）
+        // Poll status (blocking)
         basic.pause(100);
         while (true) {
             pins.i2cWriteNumber(i2cAddress, mID + 0x09, NumberFormat.UInt8BE);
@@ -482,14 +482,14 @@ namespace FIFAbit {
     //     if (speed > 100) speed = 100;
     //     if (speed < 0) speed = 0;
 
-    //     // 设置速度
+    //     // set speed
     //     const spAddr = mID + 0x04;
     //     let spBuff = pins.createBuffer(3);
     //     spBuff.setNumber(NumberFormat.UInt8BE, 0, spAddr);
     //     spBuff.setNumber(NumberFormat.UInt8BE, 1, (speed >> 8) & 0xFF);
     //     spBuff.setNumber(NumberFormat.UInt8BE, 2, speed & 0xFF);
     //     pins.i2cWriteBuffer(i2cAddress, spBuff);
-    //     // 发送运动指令
+    //     // Send motion command
     //     const cmdAddr = mID + 0x03;
     //     let cmdBuff = pins.createBuffer(2);
     //     cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
@@ -500,7 +500,7 @@ namespace FIFAbit {
     //% block="stop motor %mID"
     //% group="Motor" weight=3
     export function motorStop(mID: motorID): void {
-        // 发送停止运动指令
+        // Send stop motion command
         const cmdAddr = mID + 0x03;
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
@@ -515,7 +515,7 @@ namespace FIFAbit {
     export function motorSetPerimeter(mID: motorID,num:number): void {
         if (num < -50) num = -50;
         if (num > 50) num = 50;
-        // 发送设置周长偏移量指令
+        // Send perimeter compensation command
         const cmdAddr = mID + 0x0B;
         let cmdBuff = pins.createBuffer(2);
         cmdBuff.setNumber(NumberFormat.UInt8BE, 0, cmdAddr);
@@ -525,7 +525,7 @@ namespace FIFAbit {
     }
 
     //#########################################################################
-    //##################################舵机#################################
+    //################################## Servo #################################
     //#########################################################################
 
     //% blockId=servo1Set
@@ -548,31 +548,31 @@ namespace FIFAbit {
     //% speed.min=0 speed.max=100 speed.defl=50
     //% group="Servo Motor" weight=5
     export function servo360Run(pin: ServoPin, speed: number, direction: RotationDirection ): void {
-        // 限制速度范围
+        // Clamp speed range
         speed = Math.min(100, Math.max(0, speed))
 
         if (speed > 0 && speed<30){
             speed = 30
         }
 
-        // 计算脉冲宽度
-        // 中间位置：1.5ms (1500µs) = 停止
-        // 顺时针方向：1.0ms (500µs) = 全速逆时针
-        // 逆时针方向：2.0ms (2500µs) = 全速顺时针
+        // Calculate pulse width
+        // Center: 1.5ms (1500µs) = stop
+        // Clockwise: 1.0ms (500µs) = full speed counterclockwise
+        // Counterclockwise: 2.0ms (2500µs) = full speed clockwise
         let pulseWidth: number
 
         if (speed === 0) {
             pulseWidth = 1500
         } else {
             if (direction === RotationDirection.Clockwise) {
-                // 500-1500µs 对应速度 0-100
+                // 500-1500µs maps to speed 0-100
                 pulseWidth = 1500 - (speed * 10)
             } else {
-                // 1000-2500µs 对应速度 0-100
+                // 1000-2500µs maps to speed 0-100
                 pulseWidth = 1500 + (speed * 10)
             }
         }
-        // 设置脉冲宽度
+        // Set pulse width
         pins.servoSetPulse(pin, pulseWidth)
     }
     // //% blockId=servo360_run_with_duration
@@ -583,13 +583,13 @@ namespace FIFAbit {
 
     // //% group="Servo Motor" weight=4
     // export function runServo360ForDuration(pin: ServoPin, speed: number, direction: RotationDirection, duration: number): void {
-    //     // 启动舵机
+    //     // Start servo
     //     runServo360(pin, speed, direction)
 
-    //     // 等待指定时间
+    //     // Wait for specified duration
     //     basic.pause(duration * 1000)
 
-    //     // 停止舵机
+    //     // Stop servo
     //     servo360Stop(pin)
     // }
 
@@ -597,14 +597,14 @@ namespace FIFAbit {
     //% block="stop 360° servo %pin"
     //% group="Servo Motor" weight=3
     export function servo360Stop(pin: ServoPin): void {
-        // 设置脉冲宽度为1.5ms停止
+        // Set pulse width to 1.5ms to stop
         pins.servoSetPulse(pin, 1500)
     }
     
     //#########################################################################
-    //##################################灯条#################################
+    //################################## LED strip #################################
     //#########################################################################
-    // RGB LED控制类
+    // RGB LED controller
     class WS2812BStrip {
         private buffer: Buffer
         private pin: DigitalPin
@@ -614,11 +614,11 @@ namespace FIFAbit {
         constructor(pin: DigitalPin, length: number) {
             this.pin = pin
             this.length = length
-            this.buffer = pins.createBuffer(length * 3)// 每个LED需要3个字节 (RGB)
-            pins.digitalWritePin(pin, 0)// 初始化引脚
+            this.buffer = pins.createBuffer(length * 3)// 3 bytes per LED (RGB)
+            pins.digitalWritePin(pin, 0)// Initialize pin
         }
 
-        // 设置单个LED的RGB颜色
+        // Set RGB color for a single LED
         setPixelColor(index: number, rgb: number): void {
             if (index < 0 || index >= this.length) return
 
@@ -626,7 +626,7 @@ namespace FIFAbit {
             let g = (rgb >> 8) & 0xFF
             let b = rgb & 0xFF
 
-            // 应用亮度
+            // Apply brightness
             if (this.brightness < 255) {
                 r = (r * this.brightness) >> 8
                 g = (g * this.brightness) >> 8
@@ -634,31 +634,31 @@ namespace FIFAbit {
             }
 
             let offset = index * 3
-            // WS2812B使用GRB顺序
+            // WS2812B uses GRB order
             this.buffer[offset] = g     // G
             this.buffer[offset + 1] = r // R
             this.buffer[offset + 2] = b // B
         }
 
-        // 显示所有LED
+        // Show all LEDs
         show(): void {
             ws2812b.sendBuffer(this.buffer, this.pin)
         }
 
-        // 清除所有LED
+        // Clear all LEDs
         clear(): void {
             for (let i = 0; i < this.buffer.length; i++) {
                 this.buffer[i] = 0
             }
         }
 
-        // 设置亮度
+        // Set brightness
         setBrightness(brightness: number): void {
             this.brightness = Math.min(255, Math.max(0, brightness))
         }
     }
 
-    // 全局变量存储当前灯条信息
+    // Global state for the current LED strip
     let currentStrip: WS2812BStrip
     let currentLEDCount: number = 8
 

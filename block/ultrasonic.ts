@@ -1,4 +1,4 @@
-//----------------------------------超声波-------------------------------
+//---------------------------------- Ultrasonic -------------------------------
 enum UltrasonicPin {
     //% block="P0" 
     P0 = DigitalPin.P0,
@@ -17,11 +17,11 @@ enum UltrasonicPin {
     //% block="P16" 
     P16 = DigitalPin.P16
 }
-namespace FIFAbit {
-    // 存储引脚配置
+namespace SmartTEAM4 {
+    // Pin configuration storage
     let trigPin: UltrasonicPin
     let echoPin: UltrasonicPin
-    let ultrasonic_isInitialized = false
+    let ultrasonicInitialized = false
 
     //% blockId=ultrasonic_init
     //% block="init ultrasonic|Trig %trig|Echo %echo"
@@ -32,9 +32,9 @@ namespace FIFAbit {
     export function initUltrasonic(trig: UltrasonicPin, echo: UltrasonicPin): void {
         trigPin = trig
         echoPin = echo
-        ultrasonic_isInitialized = true
+        ultrasonicInitialized = true
 
-        // 初始化引脚
+        // Initialize pins
         pins.digitalWritePin(trigPin, 0)
         pins.setPull(echoPin, PinPullMode.PullNone)
     }
@@ -43,11 +43,11 @@ namespace FIFAbit {
     //% block="read distance (cm)"
     //% group="Ultrasonic" weight=8
     export function readDistance(): number {
-        if (!ultrasonic_isInitialized) {
+        if (!ultrasonicInitialized) {
             return 0
         }
 
-        // 发送50us的高电平脉冲
+        // Send 50µs high pulse
         pins.digitalWritePin(trigPin, 0)
         basic.pause(1)
 
@@ -56,16 +56,16 @@ namespace FIFAbit {
         pins.digitalWritePin(trigPin, 0)
         
 
-        // 读取高电平持续时间
-        // 注意：pins.pulseIn返回的是微秒
-        let duration = pins.pulseIn(echoPin, PulseValue.High, 50000)  // 50ms超时
+        // Read high pulse duration
+        // Note: pins.pulseIn returns microseconds
+        let duration = pins.pulseIn(echoPin, PulseValue.High, 50000)  // 50ms timeout
 
-        // 计算距离（厘米）
-        // 声音速度：340m/s = 34000cm/s = 0.034cm/μs
-        // 往返距离除以2
+        // Calculate distance (cm)
+        // Speed of sound: 340m/s = 34000cm/s = 0.034cm/µs
+        // Divide round-trip distance by 2
         let distance = duration * 0.034 / 2 * 1.0
 
-        // 限制有效范围（通常超声波模块有效范围2-400cm）
+        // Clamp to valid range (typically 2-400cm for ultrasonic modules)
         if (distance < 2 || distance > 400) {
             distance = 0
         }

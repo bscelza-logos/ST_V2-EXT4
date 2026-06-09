@@ -1,4 +1,4 @@
-//----------------------------------颜色传感器-------------------------------
+//---------------------------------- Color sensor -------------------------------
 const GAIN_R = 1.82//1.3//0.93
 const GAIN_G = 1.5//1.25//0.95
 const GAIN_B = 2.4//1.81
@@ -24,8 +24,8 @@ enum DetectedColor {
     Black
 }
 
-// 颜色
-enum enRGB {
+// RGB channel
+enum RgbChannel {
     //% block="R"
     Red,
     //% block="G"
@@ -34,25 +34,25 @@ enum enRGB {
     Blue,
 }
 
-namespace FIFAbit {
-    // ===== VEML6040 I2C 地址 =====
+namespace SmartTEAM4 {
+    // ===== VEML6040 I2C address =====
     const VEML6040_ADDR = 0x10
 
-    // ===== 寄存器地址 =====
+    // ===== Register addresses =====
     const REG_CONF = 0x00
     const REG_RED = 0x08
     const REG_GREEN = 0x09
     const REG_BLUE = 0x0A
     const REG_WHITE = 0x0B
 
-    // ===== 积分时间 =====
+    // ===== Integration time =====
     const IT_320MS = 0x30
 
-    // ===== 自动 / 强制 =====
+    // ===== Auto / forced =====
     const AF_AUTO = 0x00
     const SD_ENABLE = 0x00
 
-    let veml_initialized = false
+    let colorSensorInitialized = false
 
     function setConfiguration() {
         let buf = pins.createBuffer(3)
@@ -62,7 +62,7 @@ namespace FIFAbit {
         pins.i2cWriteBuffer(VEML6040_ADDR, buf, false);
     }
 
-    //读取颜色值
+    // Read color register value
     function readReg(reg: number): number {
         let regBuf = pins.createBuffer(1)
         regBuf[0] = reg
@@ -84,13 +84,13 @@ namespace FIFAbit {
     const READ_INTERVAL = 320
 
     function updateRGB() {
-        if (!veml_initialized) {
-            init_veml()
+        if (!colorSensorInitialized) {
+            initColorSensor()
         }
 
         let now = control.millis()
 
-        // 控制读取频率
+        // Limit read frequency
         if (now - lastReadTime < READ_INTERVAL) return
 
         let s = readReg(REG_RED)
@@ -98,7 +98,7 @@ namespace FIFAbit {
         let c = readReg(REG_BLUE)
         let w = readReg(REG_WHITE)
 
-        // 防止异常值
+        // Ignore invalid readings
         if (s == 0 && h == 0 && c == 0 && w == 0) return
 
         cacheR = s
@@ -111,15 +111,15 @@ namespace FIFAbit {
     }
 
 
-    //% blockId=init_veml
+    //% blockId=init_color_sensor
     //% block="init color sensor"
     //% group="Color Sensor" weight=39
-    export function init_veml(): void {
-        if (!veml_initialized) {
+    export function initColorSensor(): void {
+        if (!colorSensorInitialized) {
             setConfiguration();
-            // 等待时间
+            // Wait for integration time
             basic.pause(320);
-            veml_initialized = true
+            colorSensorInitialized = true
         }
     }
 
@@ -134,35 +134,35 @@ namespace FIFAbit {
         let b = cacheB
         let w = cacheW
 
-        // ===== 增益 + 白光归一化 =====
+        // ===== Gain + white normalization =====
         let nr = (r / w) * GAIN_R
         let ng = (g / w) * GAIN_G
         let nb = (b / w) * GAIN_B
 
-        // ===== 再归一化=====
+        // ===== Re-normalize =====
         let sum = nr + ng + nb
         nr /= sum
         ng /= sum
         nb /= sum
 
-        // ===== 计算 max/min =====
+        // ===== Compute max/min =====
         let max = max3(nr, ng, nb)
         let min = min3(nr, ng, nb)
 
-        // ===== 饱和度 =====
+        // ===== Saturation =====
         if (max == 0) return false
         let s = 0
         if (max != min) {
             s = (max - min) / max
         }
         //serial.writeLine("S="+s + " w="+w)
-        // ===== 黑白判断 =====
-        // 黑色：亮度低
+        // ===== Black/white detection =====
+        // Black: low brightness
         if (w < 2500) {
             //serial.writeLine( "black")
             return color == DetectedColor.Black
         }
-        // 白色：亮度高 + 饱和度低
+        // White: high brightness + low saturation
         if (s < 0.1) {
             //serial.writeLine("white")
             return color == DetectedColor.White
@@ -183,7 +183,7 @@ namespace FIFAbit {
 
         //serial.writeLine("H=" + h + " S=" + s)
 
-        // ===== 分类（区间判断）=====
+        // ===== Classification (range check) =====
         if (color == DetectedColor.Red){
             if (h < 25 || h >= 345) return true
             return false
@@ -212,22 +212,22 @@ namespace FIFAbit {
     // //% blockId=readRGBValue
     // //% block="read %channel value"
     // //% group="Color Sensor" weight=37
-    // export function readRGBValue(channel: enRGB): number {
+    // export function readRGBValue(channel: RgbChannel): number {
     //     updateRGB()
 
     //     if (cacheW == 0) return 0
 
-    //     // =====白光归一化 =====
+    //     // ===== White normalization =====
     //     let r = cacheR / cacheW
     //     let g = cacheG / cacheW
     //     let b = cacheB / cacheW
 
-    //     // ===== 通道校正（数据拉伸） =====
+    //     // ===== Channel correction (data stretch) =====
     //     r *= GAIN_R
     //     g *= GAIN_G
     //     b *= GAIN_B
 
-    //     // ===== 直接映射 =====
+    //     // ===== Direct mapping =====
     //     let nr = Math.round(r * 255)
     //     let ng = Math.round(g * 255)
     //     let nb = Math.round(b * 255)
@@ -237,9 +237,9 @@ namespace FIFAbit {
     //     nb = Math.min(255, Math.max(0, nb))
 
     //     switch (channel) {
-    //         case enRGB.Red: return nr
-    //         case enRGB.Green: return ng
-    //         case enRGB.Blue: return nb
+    //         case RgbChannel.Red: return nr
+    //         case RgbChannel.Green: return ng
+    //         case RgbChannel.Blue: return nb
     //         default: return 0
     //     }
     // }

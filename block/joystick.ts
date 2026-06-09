@@ -1,4 +1,4 @@
-//----------------------------------摇杆-------------------------------
+//---------------------------------- Joystick -------------------------------
 enum JoystickPin {
     //% block="P0"
     P0 = AnalogPin.P0,
@@ -45,11 +45,11 @@ enum JoyDirection {
     Right = 4
 }
 
-namespace FIFAbit {
+namespace SmartTEAM4 {
     let joyX: JoystickPin
     let joyY: JoystickPin
     let joySW: JoySWPin
-    let joystick_inited = false
+    let joystickInitialized = false
 
 
     //% blockId=joystick_init
@@ -65,14 +65,14 @@ namespace FIFAbit {
         joySW = swPin
 
         pins.setPull(joySW, PinPullMode.PullUp)
-        joystick_inited = true
+        joystickInitialized = true
     }
 
-    //% blockId=rocker
+    //% blockId=joystick_read_value
     //% block="read joystick %direction value"
     //% group="Joystick" weight=49
-    export function rocker(direction: JoyAxis): number {
-        if (!joystick_inited) return 0
+    export function readJoystickValue(direction: JoyAxis): number {
+        if (!joystickInitialized) return 0
 
         if (direction == JoyAxis.X) {
             return pins.analogReadPin(joyX)
@@ -81,11 +81,11 @@ namespace FIFAbit {
         }
     }
 
-    //% blockId=rockerori
+    //% blockId=joystick_detect_direction
     //% block="joystick detects %orientation?"
     //% group="Joystick" weight=48
-    export function rockerori(orientation: JoyDirection): boolean {
-        if (!joystick_inited) return false
+    export function isJoystickDirection(orientation: JoyDirection): boolean {
+        if (!joystickInitialized) return false
 
         let x = pins.analogReadPin(joyX)
         let y = pins.analogReadPin(joyY)
@@ -114,7 +114,7 @@ namespace FIFAbit {
     //% block="joystick button pressed?"
     //% group="Joystick" weight=47
     export function isJoystickPressed(): boolean {
-        if (!joystick_inited) return false
+        if (!joystickInitialized) return false
         serial.writeLine("" + pins.digitalReadPin(joySW))
 
         return pins.digitalReadPin(joySW) == 0

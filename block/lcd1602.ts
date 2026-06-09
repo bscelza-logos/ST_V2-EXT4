@@ -1,6 +1,6 @@
-//----------------------------------LCD1602-------------------------------
+//---------------------------------- LCD1602 -------------------------------
 let lastUpdateTime = 0
-const LCD_INTERVAL = 150   // 刷新间隔
+const LCD_INTERVAL = 150   // Refresh interval
 
 enum LcdBacklight {
     //% block="on"
@@ -8,7 +8,7 @@ enum LcdBacklight {
     //% block="off"
     Off = 0
 }
-namespace FIFAbit {
+namespace SmartTEAM4 {
     const LCD_ADDR = 0x20
     let backlight = 0x08
 
@@ -70,10 +70,10 @@ namespace FIFAbit {
         write4bits(0x30)
         write4bits(0x20)
 
-        command(0x28) // 4位 2行
-        command(0x0C) // 开显示
-        command(0x06) // 光标右移
-        command(0x01) // 清屏
+        command(0x28) // 4-bit, 2 lines
+        command(0x0C) // Display on
+        command(0x06) // Cursor moves right
+        command(0x01) // Clear screen
 
         basic.pause(5)
     }
@@ -91,7 +91,7 @@ namespace FIFAbit {
     //% col.min=0 col.max=15 col.defl=0
     //% group="LCD1602" weight=98
     export function showAt(text: string, row: number, col: number) {
-        // 限制刷新频率 
+        // Limit refresh rate
         let now = control.millis()
         if (now - lastUpdateTime < LCD_INTERVAL) return
 
@@ -109,7 +109,7 @@ namespace FIFAbit {
     export function showNumber(num: number, row: number, col: number) {
         let text = num.toString()
 
-        // 固定长度（避免残留字符）
+        // Fixed length (avoid leftover characters)
         // while (text.length < 4) {
         //     text = " " + text
         // }
@@ -122,7 +122,7 @@ namespace FIFAbit {
     //% group="LCD1602" weight=96
     export function setBacklight(state: LcdBacklight) {
         backlight = state == LcdBacklight.On ? 0x08 : 0x00
-        command(0) // 刷新
+        command(0) // Refresh
     }
   
 }

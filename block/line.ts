@@ -1,4 +1,4 @@
-//----------------------------------巡线-------------------------------
+//---------------------------------- Line tracking -------------------------------
 enum LineSensorPin {
     //% block="P0" weight=10
     P0 = DigitalPin.P0,
@@ -27,18 +27,18 @@ enum SensorSide {
     Right = 3
 }
 
-namespace FIFAbit {
-    // 存储三个传感器的引脚
+namespace SmartTEAM4 {
+    // Pin storage for the three sensors
     let leftPin: LineSensorPin
     let middlePin: LineSensorPin
     let rightPin: LineSensorPin
-    let line_isInitialized = false
+    let lineTrackingInitialized = false
 
-    // 引脚映射表
+    // Pin mapping table
     let pinMap: { [key: number]: LineSensorPin } = {
-        1: LineSensorPin.P0,  // 左默认P0
-        2: LineSensorPin.P1,  // 中默认P1
-        3: LineSensorPin.P2   // 右默认P2
+        1: LineSensorPin.P0,  // left default P0
+        2: LineSensorPin.P1,  // middle default P1
+        3: LineSensorPin.P2   // right default P2
     }
 
     //% blockId=linetracking_init
@@ -55,13 +55,13 @@ namespace FIFAbit {
         pins.setPull(pinMap[1], PinPullMode.PullNone)
         pins.setPull(pinMap[2], PinPullMode.PullNone)
         pins.setPull(pinMap[3], PinPullMode.PullNone)
-        line_isInitialized = true
+        lineTrackingInitialized = true
     }
     //% blockId=linetracking_detect  
     //% block="%position sensor detects black line?"
     //% group="Line Tracking Sensor" weight=58
     export function detectLine(position: SensorSide): boolean {
-        if (!line_isInitialized) return false
+        if (!lineTrackingInitialized) return false
         let pin = pinMap[position]
         return pins.digitalReadPin(pin) === 1
     }
@@ -70,7 +70,7 @@ namespace FIFAbit {
     //% block="read %position sensor value"
     //% group="Line Tracking Sensor" weight=57
     export function readSensorValue(position: SensorSide): number {
-        if (!line_isInitialized) return 0
+        if (!lineTrackingInitialized) return 0
         let pin = pinMap[position]
         basic.pause(10)
         return pins.digitalReadPin(pin)
