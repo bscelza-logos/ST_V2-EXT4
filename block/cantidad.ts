@@ -1,8 +1,4 @@
-/**
- * Cantidad variable blocks (same color as Variables category)
- */
-//% color=#DC143C weight=109 icon="\uf1c9" block="Cantidad"
-namespace Cantidad {
+namespace SmartTEAM4 {
     let cantidad = 0
 
     /**
@@ -11,7 +7,7 @@ namespace Cantidad {
      */
     //% blockId=cantidad_set
     //% block="Establecer cantidad a %value"
-    //% weight=100
+    //% group="Cantidad" weight=200
     //% value.defl=0
     export function setCantidad(value: number): void {
         cantidad = value

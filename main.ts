@@ -97,6 +97,7 @@ enum Colors {
 
 //color="#6CACE4" icon="\uf1e3" block="SmartTEAM 4"
 //% color="#6CACE4" icon="\uf1e3" block="SmartTEAM 4"
+//% groups=['Cantidad', 'Motion', 'Motor', 'Servo Motor', 'LED Strip', 'Color Sensor', 'Potentiometer', 'Soil Moisture Sensor', 'Joystick', 'Ultrasonic', 'Line Tracking Sensor', 'LCD1602', 'others']
 namespace SmartTEAM4 {
     //#########################################################################
     //################################## Motion (dual motor) #########################

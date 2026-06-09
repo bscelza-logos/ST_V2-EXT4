@@ -1,7 +1,11 @@
 {
     "name": "smartteam4",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "SmartTEAM 4 extension for micro:bit",
+    "card": {
+        "name": "SmartTEAM 4",
+        "description": "Bloques para la placa SmartTEAM 4"
+    },
     "dependencies": {
         "core": "*",
         "radio": "*",
