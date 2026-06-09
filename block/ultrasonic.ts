@@ -17,7 +17,8 @@ enum UltrasonicPin {
     //% block="P16" 
     P16 = DigitalPin.P16
 }
-namespace SmartTEAM4 {
+//% groups=['Sensores Libro 4']
+namespace sensoresLibro4 {
     // Pin configuration storage
     let trigPin: UltrasonicPin
     let echoPin: UltrasonicPin
@@ -25,10 +26,11 @@ namespace SmartTEAM4 {
 
     //% blockId=ultrasonic_init
     //% block="init ultrasonic|Trig %trig|Echo %echo"
+    //% blockNamespace=input
     //% inlineInputMode=external
     //% trig.defl=UltrasonicPin.P0
     //% echo.defl=UltrasonicPin.P1
-    //% group="Ultrasonic" weight=9
+    //% group="Sensores Libro 4" weight=9
     export function initUltrasonic(trig: UltrasonicPin, echo: UltrasonicPin): void {
         trigPin = trig
         echoPin = echo
@@ -41,7 +43,8 @@ namespace SmartTEAM4 {
 
     //% blockId=ultrasonic_read_distance
     //% block="read distance (cm)"
-    //% group="Ultrasonic" weight=8
+    //% blockNamespace=input
+    //% group="Sensores Libro 4" weight=8
     export function readDistance(): number {
         if (!ultrasonicInitialized) {
             return 0
