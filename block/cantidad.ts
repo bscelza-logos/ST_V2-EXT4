@@ -1,17 +1,19 @@
-// Fixed global variable for SmartTEAM 4 quantity counter
+// Global quantity variable (micro:bit: let Cantidad = 0)
 let Cantidad = 0
 
-namespace SmartTEAM4 {
+/**
+ * Cantidad variable blocks (same color as Variables category)
+ */
+//% color=#DC143C weight=109 icon="\uf1c9" block="Cantidad"
+namespace Cantidad {
     /**
      * Set Cantidad to a number value
      * @param value the value to assign, eg: 0
      */
-    //% blockNamespace=variables
-    //% color=#DC143C
-    //% weight=95
-    //% blockId=variables_set_cantidad
+    //% blockId=cantidad_set
     //% block="Establecer cantidad a %value"
-    //% value.min=0 value.defl=0
+    //% weight=100
+    //% value.defl=0
     export function setCantidad(value: number): void {
         Cantidad = value
     }
